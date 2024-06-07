@@ -4,5 +4,5 @@
   tasks:
     - name: Hello Message
       debug:
-        msg: "Hello World!"
+        msg: "Hello AWX this playbook comes from github.com/bwalia/ansible-tower-samples!"
 
