@@ -7,6 +7,11 @@
       debug:
         msg: "Hello AWX this playbook comes from github.com/bwalia/ansible-tower-samples!"
 
+    - name: Get whoami information
+      sudo: yes
+      sudo_user: sciensano
+      shell: whoami
+
     - name: Update all host/vm packages
       ansible.builtin.apt:
               update_cache: true
