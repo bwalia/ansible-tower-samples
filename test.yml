@@ -14,5 +14,8 @@
     - name: Get id information
       shell: id
 
-    - name: Systemctl list Services
-      shell: systemctl list-units --type=service
+    # - name: Systemctl list Services
+    #   shell: systemctl list-units --type=service
+
+    - name: Systemctl Status SSH
+      shell: systemctl status sshd.service
