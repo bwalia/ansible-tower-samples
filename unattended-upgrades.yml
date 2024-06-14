@@ -1,5 +1,6 @@
 - name: Ubuntu apply unattended apt updates
   hosts: all
+  become: yes
   gather_facts: true
   strategy: debug
   tasks:
