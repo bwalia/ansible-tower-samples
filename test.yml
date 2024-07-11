@@ -7,15 +7,25 @@
     - name: Hello Message
       debug:
         msg: "Hello AWX this playbook comes from github.com/bwalia/ansible-tower-samples!"
+        
+    - name: Show hostname
+      debug:
+        msg: "Host: {{ ansible_hostname }} FQDN: {{ ansible_nodename }}"
 
-    - name: Get whoami information
-      shell: whoami
+          #   - name: Get whoami information
+          #shell: whoami
 
-    - name: Get id information
-      shell: id
+          #- name: Get id information
+          #shell: id
 
     # - name: Systemctl list Services
     #   shell: systemctl list-units --type=service
 
-    - name: Systemctl Status SSH
-      shell: systemctl status sshd.service
+          #- name: Systemctl Status SSH
+          #shell: systemctl status sshd.service
+
+          #- name: Test list upgradable apt packages
+          #shell: apt list --upgradable
+
+          #- name: Test unattended-upgrades cmd
+          #shell: apt install unattended-upgrades apt-listchanges
