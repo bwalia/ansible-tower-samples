@@ -1,16 +1,39 @@
-- name: Test Ansible playbook
+- name: Find Information about servers in an inventory
   hosts: all
   become: true
   gather_facts: true
   strategy: debug
   tasks:
-    - name: Hello Message
+    - name: This is a test message
       debug:
-        msg: "Hello AWX this playbook comes from github.com/bwalia/ansible-tower-samples!"
+        msg: "Hello AWX this playbook src is in github.com/bwalia/ansible-tower-samples!"
         
-    - name: Show hostname
+    - name: Show hostname and the FQDN
       debug:
         msg: "Host: {{ ansible_hostname }} FQDN: {{ ansible_nodename }}"
+
+    - name: Check OpenSSH Server policy and version installed
+      shell:
+        cmd: |
+          ps -ef | grep ssh
+          echo "Checking OpenSSH Server policy and version installed"
+          apt policy openssh-server
+      register: result
+
+    - name: Print OpenSSH Server policy and version installed
+      debug:
+        msg: "{{ result.stdout }}"
+
+    - name: Check OpenSSH Client policy and version installed
+      shell:
+        cmd: |
+          echo "Checking OpenSSH Client policy and version installed"
+          apt policy openssh-client
+      register: result
+
+    - name: Print OpenSSH Client policy and version installed
+      debug:
+        msg: "{{ result.stdout }}"
 
           #   - name: Get whoami information
           #shell: whoami
