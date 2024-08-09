@@ -1,5 +1,5 @@
----
-collections:
+# ---
+# collections:
 
-- name: servicenow.servicenow
-- name: community.hashi\_vault
+# # - name: servicenow.servicenow
+# # - name: community.hashi\_vault
