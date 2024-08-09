@@ -1,22 +1,50 @@
-- name: Test Ansible playbook
+- name: Find Information about servers in an inventory
   hosts: all
   become: true
   gather_facts: true
   strategy: debug
   tasks:
-    - name: Hello Message
+    - name: This is a test message
       debug:
-        msg: "Hello AWX this playbook comes from github.com/bwalia/ansible-tower-samples!"
+        msg: "Hello AWX this playbook src is in github.com/bwalia/ansible-tower-samples!"
+        
+    - name: Show hostname and the FQDN
+      debug:
+        msg: "Host: {{ ansible_hostname }} FQDN: {{ ansible_nodename }}"
 
-    - name: Get whoami information
-      shell: whoami
+    - name: Check OpenSSH Server policy and version installed
+      shell:
+        cmd: |
+          ps -ef | grep ssh
+          echo "Checking OpenSSH Server policy and version installed"
+          apt policy openssh-server
+      register: result
 
-    - name: Get id information
-      shell: id
+    - name: Print OpenSSH Server policy and version installed
+      debug:
+        msg: "{{ result.stdout }}"
+
+    - name: Check OpenSSH Client policy and version installed
+      shell:
+        cmd: |
+          echo "Checking OpenSSH Client policy and version installed"
+          apt policy openssh-client
+      register: result
+
+    - name: Print OpenSSH Client policy and version installed
+      debug:
+        msg: "{{ result.stdout }}"
+
+          #   - name: Get whoami information
+          #shell: whoami
+
+          #- name: Get id information
+          #shell: id
 
     # - name: Systemctl list Services
     #   shell: systemctl list-units --type=service
 
+<<<<<<< HEAD
     - name: Systemctl Status SSH
       shell: systemctl status sshd.service
 
@@ -27,3 +55,13 @@
       shell: apt install unattended-upgrades apt-listchanges
 
       
+=======
+          #- name: Systemctl Status SSH
+          #shell: systemctl status sshd.service
+
+          #- name: Test list upgradable apt packages
+          #shell: apt list --upgradable
+
+          #- name: Test unattended-upgrades cmd
+          #shell: apt install unattended-upgrades apt-listchanges
+>>>>>>> ddd950e667c315d1a4d904fb5de8151abbcd9247
