@@ -1,0 +1,50 @@
+- name: Get the secret for SSH server and use in the playbook or add into the inventory
+  hosts: arxus_ubuntu 
+  gather_facts: true
+  become: yes
+    #  strategy: debug
+
+  tasks:
+
+  - name : "Add ubuntu 24 hashicorp repo gpg key" 
+    shell: 'rm -Rf /tmp/hashicorp-archive-keyring.gpg && wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /tmp/hashicorp-archive-keyring.gpg'
+
+  - name : "Add ubuntu 24 hashicorp repo for vault cli"
+    shell: 'echo "deb [signed-by=/tmp/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list'
+
+  - name : Install vault package
+    apt: name=vault state=present update_cache=true
+
+
+  - name : Retrieve username from vault 
+    shell: "vault kv get secret_v2/servers/SCN-C-RUNNER01"
+    environment:
+      VAULT_ADDR : "{{ vault_url }}"
+      VAULT_TOKEN : "{{ vault_token }}" 
+    register: kv_secrets_output
+ 
+  - name: Display kv_secrets_output
+    debug:
+      var: kv_secrets_output.stdout_lines
+
+  - name : Retrieve username from vault 
+    shell: "vault kv get secret_v2/servers/SCN-C-RUNNER01"
+    environment:
+      VAULT_ADDR : "{{ vault_url }}"
+      VAULT_TOKEN : "{{ vault_token }}" 
+    register: ssh_password
+
+    # Note that secret.data.data.keys won't work as 'keys' is a built-in method
+
+    ssh -o StrictHostKeychecking=no
+        #  - name: Perform multiple list operations with a single Vault login
+        #vars:
+        #paths:
+        #- secret_v2/servers/SCN-C-RUNNER01
+        #ansible.builtin.debug:
+        #msg: "{{ lookup('community.hashi_vault.vault_kv2_get', *paths, url='http://10.72.128.5:8200') }}"
+
+
+        #  - name: Read a kv2 secret with the default mount point
+        #ansible.builtin.debug:
+        #msg: "{{ lookup('community.hashi_vault.vault_list', 'secret_v2/servers/SCN-C-RUNNER01') }}"

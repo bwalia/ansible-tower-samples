@@ -1,3 +1,4 @@
+# SEE ubuntu vm multipass
 - name: Ubuntu apply unattended apt updates
   hosts: all
   become: yes

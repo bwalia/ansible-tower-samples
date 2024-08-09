@@ -19,3 +19,11 @@
 
     - name: Systemctl Status SSH
       shell: systemctl status sshd.service
+
+    - name: Test list upgradable apt packages
+      shell: apt list --upgradable
+
+    - name: Test unattended-upgrades cmd
+      shell: apt install unattended-upgrades apt-listchanges
+
+      

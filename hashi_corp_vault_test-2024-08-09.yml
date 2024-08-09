@@ -1,0 +1,32 @@
+- name: Get the secret for SSH server and use in the playbook or add into the inventory
+  hosts: arxus_ubuntu
+  gather_facts: true
+    #  strategy: debug
+  vars:
+    opts:
+      url: "{{ vault_url }}"
+      auth_method: token
+      token: "{{ vault_token }}"
+      engine_mount_point: '{{ engine }}'
+    get_secret: "{{ lookup('community.hashi_vault.vault_kv2_get', path, **servers) }}"
+
+  tasks:
+
+  - name: look secrets
+    vars:
+      engine: this_engine
+      path: '{{ item }}'
+    loop:
+      - path1
+      - path2
+      - path3
+    ansible.builtin.debug:
+      msg:
+        - '{{ get_secret }}'
+        - "use lookup, pass common opts + additional: {{ lookup('community.hashi_vault.vault_kv2_get', path, **opts) }}"
+
+
+          #  - name: Reading secrets with hashi_vault and colon dereferencing
+          #ansible.builtin.debug:
+          #msg:
+          #- "KV1 (key1): {{ lookup('community.hashi_vault.hashi_vault', 'kv1_mount/:servers/scn-a-bgtr01:ssh_password') }}"
