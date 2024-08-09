@@ -1,0 +1,14 @@
+- name: Host Information
+  hosts: all
+  gather_facts: true
+  strategy: debug
+  become: yes
+
+  tasks:
+    - name: Host IP Information
+      debug:
+        msg: "IP: {{ sn_ip_address }}"
+
+    - name: Print whoami information
+      sudo: yes
+      shell: whoami
